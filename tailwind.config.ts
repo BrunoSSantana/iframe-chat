@@ -88,11 +88,24 @@ export default {
         },
         "scale-in": {
           "0%": { 
-            transform: "translate(50%, 50%) scale(0.5)", 
-            opacity: "0" 
+            transform: "translateX(calc(50% - 7rem)) translateY(calc(50% - 7rem)) scale(0)", 
+            borderRadius: "9999px",
+            width: "56px",
+            height: "56px",
+            opacity: "0.8" 
+          },
+          "50%": {
+            transform: "translateX(25%) translateY(25%) scale(0.5)",
+            borderRadius: "1.5rem",
+            width: "190px", 
+            height: "300px",
+            opacity: "0.9"
           },
           "100%": { 
-            transform: "translate(0%, 0%) scale(1)", 
+            transform: "translateX(0) translateY(0) scale(1)", 
+            borderRadius: "0.5rem",
+            width: "380px",
+            height: "600px",
             opacity: "1" 
           }
         }
@@ -100,10 +113,9 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        "scale-in": "scale-in 0.3s ease-out"
+        "scale-in": "scale-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)"
       }
     }
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
-

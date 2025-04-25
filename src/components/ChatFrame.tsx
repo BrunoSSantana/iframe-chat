@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ChatWidget } from './ChatWidget';
 import { Minimize2, SendHorizontal } from 'lucide-react';
 import { Button } from './ui/button';
@@ -8,19 +8,34 @@ import { cn } from "@/lib/utils";
 export const ChatFrame = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const chatRef = useRef<HTMLDivElement>(null);
 
   const handleExpand = () => {
     setIsAnimating(true);
     setIsMinimized(false);
   };
 
+  const handleMinimize = () => {
+    setIsMinimized(true);
+  };
+
+  // Position the element at the button's position before animation starts
+  useEffect(() => {
+    if (isAnimating && chatRef.current) {
+      chatRef.current.style.position = 'fixed';
+      chatRef.current.style.bottom = '4rem';
+      chatRef.current.style.right = '4rem';
+    }
+  }, [isAnimating]);
+
   return (
-    <div className="fixed bottom-4 right-4 origin-bottom-right">
+    <div className="fixed bottom-4 right-4">
       {!isMinimized ? (
         <div
+          ref={chatRef}
           className={cn(
-            "w-[380px] h-[600px] bg-white rounded-lg shadow-2xl",
-            isAnimating && "animate-scale-in"
+            "bg-white rounded-lg shadow-2xl overflow-hidden",
+            isAnimating ? "animate-scale-in" : "w-[380px] h-[600px]"
           )}
           onAnimationEnd={() => setIsAnimating(false)}
         >
@@ -29,7 +44,7 @@ export const ChatFrame = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setIsMinimized(true)}
+              onClick={handleMinimize}
               className="hover:bg-gray-100"
             >
               <Minimize2 className="h-4 w-4" />
@@ -51,4 +66,3 @@ export const ChatFrame = () => {
     </div>
   );
 };
-
