@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { Send } from 'lucide-react';
@@ -60,14 +59,7 @@ export const ChatWidget = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-lg shadow-lg">
-      <div className="flex items-center p-4 border-b">
-        <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-800">Chat</h3>
-          <p className="text-sm text-gray-500">Envie sua mensagem</p>
-        </div>
-      </div>
-
+    <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div
