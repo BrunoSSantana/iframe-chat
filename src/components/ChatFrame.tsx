@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { ChatWidget } from './ChatWidget';
-import { Minimize2, MessageSquare } from 'lucide-react';
+import { Minimize2, SendHorizontal } from 'lucide-react';
 import { Button } from './ui/button';
 import { cn } from "@/lib/utils";
 
@@ -15,7 +15,7 @@ export const ChatFrame = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4">
+    <div className="fixed bottom-4 right-4 origin-bottom-right">
       {!isMinimized ? (
         <div
           className={cn(
@@ -45,7 +45,7 @@ export const ChatFrame = () => {
           className="w-14 h-14 rounded-full bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:scale-110 transition-transform"
           onClick={handleExpand}
         >
-          <MessageSquare className="h-6 w-6" />
+          <SendHorizontal className="h-6 w-6" />
         </Button>
       )}
     </div>

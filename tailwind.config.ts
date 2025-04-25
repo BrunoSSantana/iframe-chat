@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -87,11 +88,11 @@ export default {
         },
         "scale-in": {
           "0%": { 
-            transform: "scale(0.5)", 
+            transform: "translate(50%, 50%) scale(0.5)", 
             opacity: "0" 
           },
           "100%": { 
-            transform: "scale(1)", 
+            transform: "translate(0%, 0%) scale(1)", 
             opacity: "1" 
           }
         }
@@ -105,3 +106,4 @@ export default {
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
