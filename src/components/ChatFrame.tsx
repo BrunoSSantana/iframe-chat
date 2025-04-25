@@ -1,16 +1,29 @@
 
 import React, { useState } from 'react';
 import { ChatWidget } from './ChatWidget';
-import { Minimize2 } from 'lucide-react';
+import { Minimize2, MessageSquare } from 'lucide-react';
 import { Button } from './ui/button';
+import { cn } from "@/lib/utils";
 
 export const ChatFrame = () => {
   const [isMinimized, setIsMinimized] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleExpand = () => {
+    setIsAnimating(true);
+    setIsMinimized(false);
+  };
 
   return (
     <div className="fixed bottom-4 right-4">
       {!isMinimized ? (
-        <div className="w-[380px] h-[600px] bg-white rounded-lg shadow-2xl">
+        <div
+          className={cn(
+            "w-[380px] h-[600px] bg-white rounded-lg shadow-2xl",
+            isAnimating && "animate-scale-in"
+          )}
+          onAnimationEnd={() => setIsAnimating(false)}
+        >
           <div className="flex justify-between items-center p-4 border-b">
             <h3 className="text-lg font-semibold text-gray-800">Chat</h3>
             <Button
@@ -28,12 +41,14 @@ export const ChatFrame = () => {
         </div>
       ) : (
         <Button
-          className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg shadow-lg"
-          onClick={() => setIsMinimized(false)}
+          size="icon"
+          className="w-14 h-14 rounded-full bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:scale-110 transition-transform"
+          onClick={handleExpand}
         >
-          Abrir Chat
+          <MessageSquare className="h-6 w-6" />
         </Button>
       )}
     </div>
   );
 };
+
