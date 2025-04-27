@@ -1,13 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
-import { Send } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
+import { apiClient } from '@/lib/api-client';
 import { cn } from "@/lib/utils";
+import { Send } from 'lucide-react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Message {
   id: string;
   text: string;
   isUser: boolean;
+}
+
+interface ApiResponse {
+  answer: string;
 }
 
 export const ChatWidget = () => {
@@ -17,13 +22,12 @@ export const ChatWidget = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
+    const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
     scrollToBottom();
-  }, [messages]);
+  }, [messages.length]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,12 +44,12 @@ export const ChatWidget = () => {
     setIsTyping(true);
 
     try {
-      const response = await axios.post('/message', { message: inputMessage });
+      const response = await apiClient.post<ApiResponse>('/chat', { message: inputMessage });
       setIsTyping(false);
-      
+
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
-        text: response.data.answer,
+        text: response.answer,
         isUser: false,
       }]);
     } catch (error) {
@@ -77,7 +81,7 @@ export const ChatWidget = () => {
                   : "bg-gray-100 text-gray-800"
               )}
             >
-              <p className="text-sm">{message.text}</p>
+              <p className="text-sm whitespace-pre-wrap">{message.text}</p>
             </div>
           </div>
         ))}
